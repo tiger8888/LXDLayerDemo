@@ -18,10 +18,6 @@
 		EF4116581BFB4E3400B20B48 /* LXDProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4116551BFB4E3400B20B48 /* LXDProgressLayer.m */; };
 		EF4116591BFB4E3400B20B48 /* LXDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4116571BFB4E3400B20B48 /* LXDProgressView.m */; };
 		EF41165C1BFB4FD900B20B48 /* LXDProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF41165B1BFB4FD900B20B48 /* LXDProgressViewController.m */; };
-		EFF803E41BFC0AFC00B7C9E9 /* LXDGradientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF803E31BFC0AFC00B7C9E9 /* LXDGradientViewController.m */; };
-		EFF803E71BFC12D300B7C9E9 /* LXDGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF803E61BFC12D300B7C9E9 /* LXDGradientView.m */; };
-		EFF803EA1BFC12E500B7C9E9 /* LXDGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF803E91BFC12E500B7C9E9 /* LXDGradientLayer.m */; };
-		EFF803EC1BFC1EFB00B7C9E9 /* test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFF803EB1BFC1EFB00B7C9E9 /* test@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,13 +60,6 @@
 		EF4116571BFB4E3400B20B48 /* LXDProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDProgressView.m; sourceTree = "<group>"; };
 		EF41165A1BFB4FD900B20B48 /* LXDProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDProgressViewController.h; sourceTree = "<group>"; };
 		EF41165B1BFB4FD900B20B48 /* LXDProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDProgressViewController.m; sourceTree = "<group>"; };
-		EFF803E21BFC0AFC00B7C9E9 /* LXDGradientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDGradientViewController.h; sourceTree = "<group>"; };
-		EFF803E31BFC0AFC00B7C9E9 /* LXDGradientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDGradientViewController.m; sourceTree = "<group>"; };
-		EFF803E51BFC12D300B7C9E9 /* LXDGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDGradientView.h; sourceTree = "<group>"; };
-		EFF803E61BFC12D300B7C9E9 /* LXDGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDGradientView.m; sourceTree = "<group>"; };
-		EFF803E81BFC12E500B7C9E9 /* LXDGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXDGradientLayer.h; sourceTree = "<group>"; };
-		EFF803E91BFC12E500B7C9E9 /* LXDGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXDGradientLayer.m; sourceTree = "<group>"; };
-		EFF803EB1BFC1EFB00B7C9E9 /* test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +122,6 @@
 				EF4116201BFB4E0500B20B48 /* Supporting Files */,
 				EF41165A1BFB4FD900B20B48 /* LXDProgressViewController.h */,
 				EF41165B1BFB4FD900B20B48 /* LXDProgressViewController.m */,
-				EFF803E21BFC0AFC00B7C9E9 /* LXDGradientViewController.h */,
-				EFF803E31BFC0AFC00B7C9E9 /* LXDGradientViewController.m */,
 			);
 			path = LXDLayerDemo;
 			sourceTree = "<group>";
@@ -168,15 +155,10 @@
 		EF4116531BFB4E3400B20B48 /* LXDCustomLayer */ = {
 			isa = PBXGroup;
 			children = (
-				EFF803EB1BFC1EFB00B7C9E9 /* test@3x.png */,
 				EF4116541BFB4E3400B20B48 /* LXDProgressLayer.h */,
 				EF4116551BFB4E3400B20B48 /* LXDProgressLayer.m */,
 				EF4116561BFB4E3400B20B48 /* LXDProgressView.h */,
 				EF4116571BFB4E3400B20B48 /* LXDProgressView.m */,
-				EFF803E51BFC12D300B7C9E9 /* LXDGradientView.h */,
-				EFF803E61BFC12D300B7C9E9 /* LXDGradientView.m */,
-				EFF803E81BFC12E500B7C9E9 /* LXDGradientLayer.h */,
-				EFF803E91BFC12E500B7C9E9 /* LXDGradientLayer.m */,
 			);
 			path = LXDCustomLayer;
 			sourceTree = "<group>";
@@ -285,7 +267,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4116301BFB4E0500B20B48 /* LaunchScreen.storyboard in Resources */,
-				EFF803EC1BFC1EFB00B7C9E9 /* test@3x.png in Resources */,
 				EF41162D1BFB4E0500B20B48 /* Assets.xcassets in Resources */,
 				EF41162B1BFB4E0500B20B48 /* Main.storyboard in Resources */,
 			);
@@ -314,13 +295,10 @@
 			files = (
 				EF4116281BFB4E0500B20B48 /* ViewController.m in Sources */,
 				EF4116591BFB4E3400B20B48 /* LXDProgressView.m in Sources */,
-				EFF803E41BFC0AFC00B7C9E9 /* LXDGradientViewController.m in Sources */,
 				EF4116251BFB4E0500B20B48 /* AppDelegate.m in Sources */,
 				EF4116221BFB4E0500B20B48 /* main.m in Sources */,
-				EFF803E71BFC12D300B7C9E9 /* LXDGradientView.m in Sources */,
 				EF41165C1BFB4FD900B20B48 /* LXDProgressViewController.m in Sources */,
 				EF4116581BFB4E3400B20B48 /* LXDProgressLayer.m in Sources */,
-				EFF803EA1BFC12E500B7C9E9 /* LXDGradientLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

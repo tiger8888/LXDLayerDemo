@@ -25,8 +25,8 @@
 {
     if (self = [super init]) {
         self.origin = CGPointMake(25.f, 76.f);
-        self.progress = 0.f;
         self.strokeEnd = 1.f;
+        self.progress = 0.f;
         self.maxOffset = 25.f;
         self.textRect = CGRectMake(5, _origin.y - 30, 40, 20);
     }
@@ -46,21 +46,9 @@
     return self;
 }
 
-- (void)setMaxOffset: (CGFloat)maxOffset
-{
-    _maxOffset = maxOffset;
-    [self setNeedsDisplay];
-}
-
 - (void)setProgress: (CGFloat)progress
 {
     _progress = MIN(1.f, MAX(0.f, progress));
-    [self setNeedsDisplay];
-}
-
-- (void)setStrokeEnd: (CGFloat)strokeEnd
-{
-    _strokeEnd = MIN(1.f, MAX(0.f, strokeEnd));
     [self setNeedsDisplay];
 }
 
@@ -75,36 +63,9 @@
 - (void)drawInContext: (CGContextRef)ctx
 {
     CGFloat offsetX = _origin.x + MAX_LENGTH * _progress;
-    CGFloat offsetY = _origin.y + _maxOffset * (1 - fabs((_progress - 0.5f) * 2));
-
-//    CGMutablePathRef mPath = CGPathCreateMutable();
-//    CGPathMoveToPoint(mPath, NULL, offsetX, offsetY);
-//    CGPathAddLineToPoint(mPath, NULL, _origin.x + MAX_LENGTH, _origin.y);
-//    
-//    CGContextAddPath(ctx, mPath);
-//    CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
-//    CGContextSetLineWidth(ctx, 5.f);
-//    CGContextSetLineCap(ctx, kCGLineCapRound);
-//    CGContextStrokePath(ctx);
-//    CGPathRelease(mPath);
-//    
-//    mPath = CGPathCreateMutable();
-//    CGPathMoveToPoint(mPath, NULL, _origin.x, _origin.y);
-//    CGPathAddLineToPoint(mPath, NULL, offsetX, offsetY);
-//    
-//    CGContextAddPath(ctx, mPath);
-//    CGContextSetStrokeColorWithColor(ctx, [UIColor greenColor].CGColor);
-//    CGContextSetLineWidth(ctx, 5.f);
-//    CGContextSetLineCap(ctx, kCGLineCapRound);
-//    CGContextStrokePath(ctx);
-//
-//    CGPathRelease(mPath);
-    
-    
-    
-    
-    CGFloat endX = 25.f + MAX_LENGTH * _strokeEnd;
-    CGFloat endY = offsetY;
+    CGFloat offsetY = _origin.y + _maxOffset * (1 - fabs(_progress - 0.5f) * 2);
+    CGFloat contactX = 25.f + MAX_LENGTH * _strokeEnd;
+    CGFloat contactY = _origin.y + _maxOffset * (1 - fabs(_strokeEnd - 0.5f) * 2);
     
     CGRect textRect = CGRectOffset(_textRect, MAX_LENGTH * _progress, _maxOffset * (1 - fabs(_progress - 0.5f) * 2));
     if (_report) {
@@ -112,42 +73,39 @@
     }
     
     CGMutablePathRef linePath = CGPathCreateMutable();
-    
+
+    //绘制背景线条
+    if (_strokeEnd > _progress) {
+        CGFloat scale =  _progress == 0 ?: (1 - (_strokeEnd - _progress) / (1 - _progress));
+        contactY = _origin.y + (offsetY - _origin.y) * scale;
+        CGPathMoveToPoint(linePath, NULL, contactX, contactY);
+    } else {
+        CGFloat scale = _progress == 0 ?: _strokeEnd / _progress;
+        contactY = (offsetY - _origin.y) * scale + _origin.y;
+        CGPathMoveToPoint(linePath, NULL, contactX, contactY);
+        CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY);
+    }
+    CGPathAddLineToPoint(linePath, NULL, _origin.x + MAX_LENGTH, _origin.y);
+    [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor];
     
     CGPathRelease(linePath);
     linePath = CGPathCreateMutable();
+    
+    //绘制进度线条
     if (_progress != 0.f) {
-        CGPathMoveToPoint(linePath, NULL, 25, _origin.y);
-        if (_strokeEnd > _progress) {
-            CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY);
-            endY = (offsetY - _origin.y) * (1 - (_strokeEnd - _progress) / (1 - _progress)) + _origin.y;
-            CGPathAddLineToPoint(linePath, NULL, endX, endY);
-        } else {
-            endY = (offsetY - _origin.y) * (1 - (_progress - _strokeEnd) / _progress) + _origin.y;
-            endY = _progress == 0 ? offsetY : endY;
-            CGPathAddLineToPoint(linePath, NULL, endX, endY);
+        NSLog(@"%f, progress", _progress);
+        CGPathMoveToPoint(linePath, NULL, _origin.x, _origin.y);
+        if (_strokeEnd > _progress) { CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY); }
+            CGPathAddLineToPoint(linePath, NULL, contactX, contactY);
+    } else {
+        if (_strokeEnd != 1.f && _strokeEnd != 0.f) {
+            NSLog(@"%f, end", _progress);
+            CGPathMoveToPoint(linePath, NULL, _origin.x, _origin.y);
+            CGPathAddLineToPoint(linePath, NULL, contactX, contactY);
         }
-        
-        [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 66/255.f green: 1.f blue: 66/255.f alpha: 1.f].CGColor];
-        CGContextStrokePath(ctx);
-        
-        
-        
-        
-        CGPathRelease(linePath);
-        linePath = CGPathCreateMutable();
-        CGPathMoveToPoint(linePath, NULL, endX, endY);
-        if (_strokeEnd <= _progress) {
-            CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY);
-        }
-        CGPathAddLineToPoint(linePath, NULL, 25 + MAX_LENGTH, _origin.y);
-        [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor];
-        CGContextStrokePath(ctx);
-        
-        CGPathRelease(linePath);
-        
-        
     }
+    [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 66/255.f green: 1.f blue: 66/255.f alpha: 1.f].CGColor];
+    CGPathRelease(linePath);
 }
 
 - (void)setPath: (CGPathRef)path onContext: (CGContextRef)ctx color: (CGColorRef)color
@@ -157,6 +115,7 @@
     CGContextSetStrokeColorWithColor(ctx, color);
     CGContextSetLineCap(ctx, kCGLineCapRound);
     CGContextSetLineJoin(ctx, kCGLineJoinRound);
+    CGContextStrokePath(ctx);
 }
 
 
