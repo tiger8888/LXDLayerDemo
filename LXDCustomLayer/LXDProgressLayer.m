@@ -85,18 +85,32 @@
     CGPathAddLineToPoint(linePath, NULL, midX, midY);
     if (_strokeEnd != 1.f) {
         CGPathAddLineToPoint(linePath, NULL, endX, endY);
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathMoveToPoint(path, NULL, endX, endY);
+        CGPathAddLineToPoint(path, NULL, 25 + MAX_LENGTH, INIT_Y);
+        
+        [self setPath: path onContext: ctx];
+        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor);
+        CGContextStrokePath(ctx);
+        CGPathRelease(path);
+        
     } else {
         CGPathAddLineToPoint(linePath, NULL, 25 + MAX_LENGTH, INIT_Y);
     }
     
-    CGContextAddPath(ctx, linePath);
+    [self setPath: linePath onContext: ctx];
     CGContextSetStrokeColorWithColor(ctx, _strokeColor);
-    CGContextSetLineWidth(ctx, 5.f);
-    CGContextSetLineCap(ctx, kCGLineCapRound);
-    CGContextSetLineJoin(ctx, kCGLineJoinRound);
     CGContextStrokePath(ctx);
     
     CGPathRelease(linePath);
+}
+
+- (void)setPath: (CGPathRef)path onContext: (CGContextRef)ctx
+{
+    CGContextAddPath(ctx, path);
+    CGContextSetLineWidth(ctx, 5.f);
+    CGContextSetLineCap(ctx, kCGLineCapRound);
+    CGContextSetLineJoin(ctx, kCGLineJoinRound);
 }
 
 - (void)failed

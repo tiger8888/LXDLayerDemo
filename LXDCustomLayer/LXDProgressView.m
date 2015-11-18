@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) UILabel * progressLabel;
 @property (nonatomic, strong) LXDProgressLayer * progressLayer;
-@property (nonatomic, strong) LXDProgressLayer * backgoundLayer;
 
 @end
 
@@ -22,11 +21,6 @@
 - (instancetype)initWithFrame: (CGRect)frame
 {
     if (self = [super initWithFrame: frame]) {
-        self.backgoundLayer = [LXDProgressLayer layer];
-        self.backgoundLayer.strokeColor = [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor;
-        self.backgoundLayer.frame = self.bounds;
-        self.backgoundLayer.contentsScale = [UIScreen mainScreen].scale;
-        [self.layer addSublayer: self.backgoundLayer];
         
         self.progressLayer = [LXDProgressLayer layer];
         self.progressLayer.strokeColor = [UIColor colorWithRed: 66/255.f green: 1.f blue: 66/255.f alpha: 1.f].CGColor;
@@ -50,7 +44,6 @@
     _progress = progress;
     self.progressLayer.strokeEnd = progress;
     self.progressLayer.progress = progress;
-    self.backgoundLayer.progress = progress;
 }
 
 - (UILabel *)progressLabel
