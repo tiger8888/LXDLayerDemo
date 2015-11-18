@@ -73,8 +73,7 @@
 {
     CGFloat midX = 25.f + MAX_LENGTH * _progress;
     CGFloat midY = _maxOffset * (1 - fabs((_progress - 0.5f) * 2)) + INIT_Y;
-    CGFloat endX = 25 + MAX_LENGTH * _strokeEnd;
-    CGFloat endY = _maxOffset * (1 - fabs(_strokeEnd - 0.5f) * 2) + INIT_Y;
+    CGFloat endX = midX, endY = midY;
     
     CGRect textRect = CGRectOffset(_textRect, MAX_LENGTH * _progress, _maxOffset * (1 - fabs(_progress - 0.5f) * 2));
     if (_report) {
@@ -83,33 +82,37 @@
     
     CGMutablePathRef linePath = CGPathCreateMutable();
     CGPathMoveToPoint(linePath, NULL, 25, INIT_Y);
-    CGPathAddLineToPoint(linePath, NULL, midX, midY);
-    if (_strokeEnd != 1.f) {
-        CGPathAddLineToPoint(linePath, NULL, endX, endY);
-        CGMutablePathRef path = CGPathCreateMutable();
-        CGPathMoveToPoint(path, NULL, endX, endY);
-        CGPathAddLineToPoint(path, NULL, 25 + MAX_LENGTH, INIT_Y);
-        
-        [self setPath: path onContext: ctx];
-        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor);
-        CGContextStrokePath(ctx);
-        CGPathRelease(path);
-        
+    if (_strokeEnd > _progress) {
+        CGPathAddLineToPoint(linePath, NULL, midX, midY);
     } else {
-        CGPathAddLineToPoint(linePath, NULL, 25 + MAX_LENGTH, INIT_Y);
+        CGFloat scale = _strokeEnd / _progress;
+        endX = (midX - 25.f) * scale + 25.f;
+        endY = (midY - INIT_Y) * scale + INIT_Y;
+        CGPathAddLineToPoint(linePath, NULL, endX, endY);
     }
     
-    [self setPath: linePath onContext: ctx];
-    CGContextSetStrokeColorWithColor(ctx, _strokeColor);
+    [self setPath: linePath onContext: ctx color: _strokeColor];
     CGContextStrokePath(ctx);
     
+    CGMutablePathRef lastPath = CGPathCreateMutable();
+    CGPathMoveToPoint(lastPath, NULL, endX, endY);
+    if (endX != midX) {
+        CGPathAddLineToPoint(lastPath, NULL, midX, midY);
+    }
+    CGPathAddLineToPoint(lastPath, NULL, 25.f + MAX_LENGTH, INIT_Y);
+    [self setPath: lastPath onContext: ctx color: [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor];
+    CGContextStrokePath(ctx);
+    
+    
+    CGPathRelease(lastPath);
     CGPathRelease(linePath);
 }
 
-- (void)setPath: (CGPathRef)path onContext: (CGContextRef)ctx
+- (void)setPath: (CGPathRef)path onContext: (CGContextRef)ctx color: (CGColorRef)color
 {
     CGContextAddPath(ctx, path);
     CGContextSetLineWidth(ctx, 5.f);
+    CGContextSetStrokeColorWithColor(ctx, color);
     CGContextSetLineCap(ctx, kCGLineCapRound);
     CGContextSetLineJoin(ctx, kCGLineJoinRound);
 }
