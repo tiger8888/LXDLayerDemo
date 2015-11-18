@@ -63,6 +63,7 @@
 
 - (void)setStrokeColor: (CGColorRef)strokeColor
 {
+    CGColorRelease(_strokeColor);
     _strokeColor = strokeColor;
     CGColorRetain(_strokeColor);        //必须进行这一步持有，否则对象将释放
     [self setNeedsDisplay];
@@ -111,25 +112,6 @@
     CGContextSetLineWidth(ctx, 5.f);
     CGContextSetLineCap(ctx, kCGLineCapRound);
     CGContextSetLineJoin(ctx, kCGLineJoinRound);
-}
-
-- (void)failed
-{
-    CAKeyframeAnimation * keyframeAnimation = [CAKeyframeAnimation animationWithKeyPath: @"maxOffset"];
-    keyframeAnimation.values = @[@(-20), @12, @(-8), @2, @0];
-    keyframeAnimation.keyTimes = @[@0.35, @0.6, @0.75, @0.9];
-    keyframeAnimation.duration = 0.15f;
-    keyframeAnimation.delegate = self;
-    [self addAnimation: keyframeAnimation forKey: nil];
-}
-
-- (void)animationDidStop:(CAAnimation *)anim finished: (BOOL)flag
-{
-    CGColorRef color = _strokeColor;
-    self.strokeColor = [UIColor redColor].CGColor;
-    self.progress = 0.f;
-    self.strokeColor = color;
-    CGColorRelease(color);
 }
 
 
