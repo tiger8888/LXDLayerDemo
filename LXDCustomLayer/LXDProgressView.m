@@ -48,7 +48,7 @@
 - (void)setProgress: (CGFloat)progress
 {
     _progress = progress;
-    self.progressLayer.strokeEnd = progress;
+    self.progressLayer.strokeEnd = 0.5f;
     self.progressLayer.progress = progress;
     [self updatePath];
 }

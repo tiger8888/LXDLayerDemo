@@ -113,16 +113,6 @@
     
     CGMutablePathRef linePath = CGPathCreateMutable();
     
-    CGPathRelease(linePath);
-    linePath = CGPathCreateMutable();
-    CGPathMoveToPoint(linePath, NULL, endX, endY);
-    if (_strokeEnd <= _progress) {
-        CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY);
-    }
-    CGPathAddLineToPoint(linePath, NULL, 25 + MAX_LENGTH, _origin.y);
-    [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor];
-    CGContextStrokePath(ctx);
-    
     
     CGPathRelease(linePath);
     linePath = CGPathCreateMutable();
@@ -140,7 +130,23 @@
         
         [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 66/255.f green: 1.f blue: 66/255.f alpha: 1.f].CGColor];
         CGContextStrokePath(ctx);
+        
+        
+        
+        
         CGPathRelease(linePath);
+        linePath = CGPathCreateMutable();
+        CGPathMoveToPoint(linePath, NULL, endX, endY);
+        if (_strokeEnd <= _progress) {
+            CGPathAddLineToPoint(linePath, NULL, offsetX, offsetY);
+        }
+        CGPathAddLineToPoint(linePath, NULL, 25 + MAX_LENGTH, _origin.y);
+        [self setPath: linePath onContext: ctx color: [UIColor colorWithRed: 204/255.f green: 204/255.f blue: 204/255.f alpha: 1.f].CGColor];
+        CGContextStrokePath(ctx);
+        
+        CGPathRelease(linePath);
+        
+        
     }
 }
 
